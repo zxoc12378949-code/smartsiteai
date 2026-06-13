@@ -241,8 +241,8 @@ onMounted(loadData)
                     class="donut-segment"
                   ></circle>
                 </g>
-                <text x="50" y="46" text-anchor="middle" font-size="8" fill="var(--text-muted)" font-weight="500">總缺失</text>
-                <text x="50" y="62" text-anchor="middle" font-size="16" font-weight="800" fill="var(--text-main)" font-family="'Outfit', sans-serif">{{ donutTotal }}</text>
+                <text x="50" y="45" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-weight="500">總缺失</text>
+                <text x="50" y="64" text-anchor="middle" font-size="20" font-weight="800" fill="var(--text-main)" font-family="'Outfit', sans-serif">{{ donutTotal }}</text>
               </svg>
             </div>
             <div class="donut-legend">
@@ -269,7 +269,7 @@ onMounted(loadData)
             <svg viewBox="0 0 300 150" class="bar-chart-svg">
               <!-- Grid lines -->
               <line v-for="i in [0,1,2,3,4,5]" :key="i" x1="25" :y1="20 + i*20" x2="290" :y2="20 + i*20" stroke="#F1F5F9" stroke-width="1"></line>
-              <text v-for="i in [0,1,2,3,4,5]" :key="i" x="20" :y="24 + (5-i)*20" text-anchor="end" font-size="7" fill="var(--text-muted)">{{ Math.round((barMaxVal / 5) * i) }}</text>
+              <text v-for="i in [0,1,2,3,4,5]" :key="i" x="20" :y="24 + (5-i)*20" text-anchor="end" font-size="9" fill="var(--text-muted)">{{ Math.round((barMaxVal / 5) * i) }}</text>
 
               <!-- Bars -->
               <g v-for="(d, idx) in barChartData" :key="d.month">
@@ -305,7 +305,7 @@ onMounted(loadData)
                 </rect>
 
                 <!-- X Axis labels -->
-                <text :x="48 + idx*42" y="135" text-anchor="middle" font-size="8" fill="var(--text-muted)">{{ d.month }}</text>
+                <text :x="48 + idx*42" y="135" text-anchor="middle" font-size="10" fill="var(--text-muted)">{{ d.month }}</text>
               </g>
 
               <defs>
@@ -335,7 +335,7 @@ onMounted(loadData)
             <svg viewBox="0 0 300 150" class="line-chart-svg">
               <!-- Grid lines -->
               <line v-for="i in [0,1,2,3,4,5]" :key="i" x1="25" :y1="20 + i*20" x2="290" :y2="20 + i*20" stroke="#F1F5F9" stroke-width="1"></line>
-              <text v-for="i in [0,1,2,3,4,5]" :key="i" x="20" :y="24 + (5-i)*20" text-anchor="end" font-size="7" fill="var(--text-muted)">{{ Math.round((lineMaxVal / 5) * i) }}</text>
+              <text v-for="i in [0,1,2,3,4,5]" :key="i" x="20" :y="24 + (5-i)*20" text-anchor="end" font-size="9" fill="var(--text-muted)">{{ Math.round((lineMaxVal / 5) * i) }}</text>
 
               <!-- Path Area -->
               <path
@@ -369,7 +369,7 @@ onMounted(loadData)
                 >
                   <title>高風險缺失: {{ d.count }} 件</title>
                 </circle>
-                <text :x="48 + idx*42" y="135" text-anchor="middle" font-size="8" fill="var(--text-muted)">{{ d.month }}</text>
+                <text :x="48 + idx*42" y="135" text-anchor="middle" font-size="10" fill="var(--text-muted)">{{ d.month }}</text>
               </g>
 
               <defs>
@@ -491,18 +491,18 @@ onMounted(loadData)
 }
 
 .chart-header { margin-bottom: 16px; }
-.chart-header h3 { font-size: 15px; color: var(--text-main); font-weight: 600; }
+.chart-header h3 { font-size: 18px; color: var(--text-main); font-weight: 600; }
 
 /* Donut Chart styles */
 .donut-chart-box {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
 }
 
 .donut-svg-wrapper {
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   flex-shrink: 0;
 }
 
@@ -519,14 +519,14 @@ onMounted(loadData)
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .donut-legend-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .legend-info {
@@ -536,8 +536,8 @@ onMounted(loadData)
 }
 
 .legend-color-dot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   display: inline-block;
 }
@@ -550,7 +550,7 @@ onMounted(loadData)
 .legend-vals {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .legend-count {
@@ -560,8 +560,8 @@ onMounted(loadData)
 
 .legend-pct {
   color: var(--text-muted);
-  font-size: 10px;
-  width: 30px;
+  font-size: 12px;
+  width: 36px;
   text-align: right;
 }
 
@@ -599,8 +599,8 @@ onMounted(loadData)
 .chart-legend-row {
   display: flex;
   justify-content: center;
-  gap: 16px;
-  font-size: 11px;
+  gap: 20px;
+  font-size: 13px;
   margin-top: 4px;
 }
 
