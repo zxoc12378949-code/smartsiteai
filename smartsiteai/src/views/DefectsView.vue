@@ -270,16 +270,15 @@ const loadData = async () => {
 const availableActions = computed(() => {
   if (!selectedDefect.value || !currentUser.value) return []
   const d = selectedDefect.value
-  const role = currentUser.value.role
   const actions = []
 
-  if (d.status === 'open' && (role === 'manager' || role === 'inspector' || role === 'admin')) {
+  if (d.status === 'open') {
     actions.push({ label: '開始改善', status: 'in_progress', type: 'warning' })
   }
-  if (d.status === 'in_progress' && (role === 'manager' || currentUser.value.id === d.responsible_user_id || role === 'admin')) {
+  if (d.status === 'in_progress') {
     actions.push({ label: '申報完成', status: 'resolved', needsNotes: true, type: 'primary' })
   }
-  if (d.status === 'resolved' && (role === 'supervisor' || role === 'manager' || role === 'admin')) {
+  if (d.status === 'resolved') {
     actions.push({ label: '審核通過/結案', status: 'closed', type: 'success' })
     actions.push({ label: '駁回重作', status: 'in_progress', type: 'danger' })
   }

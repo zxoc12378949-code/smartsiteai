@@ -36,9 +36,7 @@ router.beforeEach((to) => {
   if (to.meta.requiresGuest && isLoggedIn.value) {
     return { name: 'dashboard' }
   }
-  if (to.meta.requiresAdmin && currentRole.value !== 'admin') {
-    return { name: 'dashboard' }
-  }
+
 })
 
 export default router

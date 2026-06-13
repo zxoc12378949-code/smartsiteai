@@ -9,11 +9,39 @@ const router = useRouter()
 const route = useRoute()
 const { currentUser, can, logout } = useAuth()
 const { notifications, unreadCount, setNotifications, markAllRead } = useNotifStore()
-const { activeProject, projects, setProjects, setActiveProject } = useProjectStore()
+const { activeProject, projects, setProjects, setActiveProject, addProject } = useProjectStore()
 const { show } = useToast()
 
 const sidebarOpen = ref(false)
 const notifDrawerOpen = ref(false)
+const showAddProjectModal = ref(false)
+const newProjectName = ref('')
+const newProjectLocation = ref('')
+const savingProject = ref(false)
+
+const handleAddProject = async () => {
+  if (!newProjectName.value.trim()) {
+    show('請輸入工地名稱', 'warning')
+    return
+  }
+  savingProject.value = true
+  try {
+    const created = await projectsApi.create({
+      name: newProjectName.value.trim(),
+      location: newProjectLocation.value.trim(),
+      status: 'active'
+    })
+    addProject(created)
+    show('作業工地新增成功', 'success')
+    showAddProjectModal.value = false
+    newProjectName.value = ''
+    newProjectLocation.value = ''
+  } catch (e: any) {
+    show(e.message || '新增失敗', 'danger')
+  } finally {
+    savingProject.value = false
+  }
+}
 
 // Sidebar nav items
 const navItems = computed(() => [
@@ -73,9 +101,13 @@ onMounted(() => {
       </div>
 
       <!-- Active Project Selector -->
-      <div class="project-selector" v-if="projects.length > 0">
-        <label>📁 作業工地</label>
+      <div class="project-selector">
+        <div class="project-selector-header">
+          <label>📁 作業工地</label>
+          <button class="add-project-btn" @click="showAddProjectModal = true" title="新增作業工地">+</button>
+        </div>
         <select
+          v-if="projects.length > 0"
           class="project-select"
           :value="activeProject?.id"
           @change="(e) => setActiveProject(projects.find(p => p.id === (e.target as HTMLSelectElement).value) || null)"
@@ -84,6 +116,7 @@ onMounted(() => {
             {{ p.name }}
           </option>
         </select>
+        <div v-else class="no-projects-lbl">暫無工地，請點擊 + 新增</div>
       </div>
 
       <!-- Navigation -->
@@ -168,7 +201,7 @@ onMounted(() => {
       <main class="page-content">
         <RouterView v-slot="{ Component }">
           <Transition name="page" mode="out-in">
-            <component :is="Component" />
+            <component :is="Component" :key="activeProject?.id" />
           </Transition>
         </RouterView>
       </main>
@@ -205,6 +238,43 @@ onMounted(() => {
         </div>
       </div>
     </Transition>
+
+    <!-- Add Project Modal -->
+    <div v-if="showAddProjectModal" class="modal-overlay" @click.self="showAddProjectModal = false">
+      <div class="modal-card" style="max-width: 480px; color: var(--text-main);">
+        <div class="modal-header">
+          <h3>新增作業工地</h3>
+          <button class="modal-close" @click="showAddProjectModal = false">✕</button>
+        </div>
+        <div class="modal-body" style="padding: 20px;">
+          <div class="form-group">
+            <label>工地名稱 *</label>
+            <input
+              v-model="newProjectName"
+              type="text"
+              class="form-control"
+              placeholder="例如：信義區商業大樓新建工程"
+              required
+            />
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>工地地址/位置</label>
+            <input
+              v-model="newProjectLocation"
+              type="text"
+              class="form-control"
+              placeholder="例如：台北市信義區松高路"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" @click="showAddProjectModal = false">取消</button>
+          <button class="btn btn-warning" :disabled="savingProject" @click="handleAddProject">
+            {{ savingProject ? '儲存中...' : '儲存工地' }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -258,14 +328,50 @@ onMounted(() => {
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
+.project-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
 .project-selector label {
   font-size: 11px;
   font-weight: 600;
   color: rgba(255,255,255,0.5);
   display: block;
-  margin-bottom: 6px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.add-project-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.add-project-btn:hover {
+  background: var(--warning);
+  color: white;
+}
+
+.no-projects-lbl {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 6px 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  text-align: center;
 }
 
 .project-select {

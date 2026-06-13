@@ -49,6 +49,27 @@ const resultOptions = [
   { value: 'abnormal', label: '不合格', class: 'opt-fail' },
 ]
 
+const translateItemName = (name: string): string => {
+  const mapping: Record<string, string> = {
+    'Safety Helmet Compliance': '安全帽配戴',
+    'Scaffold Safety': '施工架安全',
+    'Electrical Safety': '用電安全',
+    'Fall Protection': '防墜設施',
+    'Material Storage': '物料堆放',
+    'Site Housekeeping': '工地整理整頓',
+  }
+  return mapping[name] || name
+}
+
+const translateStatus = (s: string): string => {
+  const mapping: Record<string, string> = {
+    'pass': '合格',
+    'warning': '警告',
+    'fail': '不合格',
+  }
+  return mapping[s] || s
+}
+
 const filtered = computed(() => {
   return inspections.value.filter(i => {
     if (filterArea.value && i.work_area !== filterArea.value) return false
@@ -229,7 +250,7 @@ onMounted(loadData)
               <td>
                 <div style="display:flex; gap:6px;">
                   <button class="btn btn-secondary btn-sm" @click="openDetail(i.id)">詳情</button>
-                  <button v-if="can.manageDefect.value" class="btn btn-danger btn-sm" @click="handleDelete(i.id)">刪除</button>
+                  <button v-if="can.manageDefect.value || currentUser?.role === 'inspector'" class="btn btn-danger btn-sm" @click="handleDelete(i.id)">刪除</button>
                 </div>
               </td>
             </tr>
@@ -308,16 +329,16 @@ onMounted(loadData)
             <div class="meta-item"><span class="meta-key">巡檢員</span><span>{{ selectedDetail.inspector_name }}</span></div>
             <div class="meta-item">
               <span class="meta-key">結果</span>
-              <span class="badge" :class="statusBadge(selectedDetail.status)">{{ selectedDetail.status }}</span>
+              <span class="badge" :class="statusBadge(selectedDetail.status)">{{ translateStatus(selectedDetail.status) }}</span>
             </div>
             <div class="meta-item"><span class="meta-key">合格率</span><span>{{ passRate(selectedDetail) }}</span></div>
           </div>
 
           <div class="checklist-result-list">
             <div v-for="item in selectedDetail.items" :key="item.id" class="checklist-result-item">
-              <span>{{ item.item_name }}</span>
+              <span>{{ translateItemName(item.item_name) }}</span>
               <span class="badge" :class="item.result === 'normal' ? 'badge-success' : 'badge-danger'">
-                {{ item.result === 'normal' ? 'Pass' : 'Fail' }}
+                {{ item.result === 'normal' ? '合格' : '不合格' }}
               </span>
             </div>
           </div>

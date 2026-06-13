@@ -34,13 +34,13 @@ export const useAuth = () => {
     localStorage.removeItem('smartsite_user');
   };
 
-  // Role-based permission helpers
+  // Role-based permission helpers - All users have full permission
   const can = {
-    createInspection: computed(() => ['inspector', 'manager', 'admin'].includes(authState.user?.role || '')),
-    createDefect: computed(() => ['inspector', 'manager', 'admin'].includes(authState.user?.role || '')),
-    manageDefect: computed(() => ['manager', 'supervisor', 'admin'].includes(authState.user?.role || '')),
-    closeDefect: computed(() => ['supervisor', 'manager', 'admin'].includes(authState.user?.role || '')),
-    manageUsers: computed(() => authState.user?.role === 'admin'),
+    createInspection: computed(() => true),
+    createDefect: computed(() => true),
+    manageDefect: computed(() => true),
+    closeDefect: computed(() => true),
+    manageUsers: computed(() => true),
     viewReports: computed(() => true),
   };
 
@@ -79,7 +79,12 @@ export const useProjectStore = () => {
     }
   };
 
-  return { activeProject, projects, setActiveProject, setProjects };
+  const addProject = (project: Project) => {
+    projectState.projects.push(project);
+    setActiveProject(project);
+  };
+
+  return { activeProject, projects, setActiveProject, setProjects, addProject };
 };
 
 // ─────────────────────────────────────────

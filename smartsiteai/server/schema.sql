@@ -135,24 +135,24 @@ INSERT OR IGNORE INTO inspections (id, project_id, inspector_id, inspection_date
 
 -- Demo Inspection Items
 INSERT OR IGNORE INTO inspection_items (id, inspection_id, item_name, result) VALUES
-  ('item-001', 'ins-001', 'Safety Helmet Compliance', 'normal'),
-  ('item-002', 'ins-001', 'Scaffold Safety', 'normal'),
-  ('item-003', 'ins-001', 'Electrical Safety', 'normal'),
-  ('item-004', 'ins-001', 'Fall Protection', 'normal'),
-  ('item-005', 'ins-001', 'Material Storage', 'normal'),
-  ('item-006', 'ins-001', 'Site Housekeeping', 'normal'),
-  ('item-007', 'ins-002', 'Safety Helmet Compliance', 'normal'),
-  ('item-008', 'ins-002', 'Scaffold Safety', 'abnormal'),
-  ('item-009', 'ins-002', 'Electrical Safety', 'normal'),
-  ('item-010', 'ins-002', 'Fall Protection', 'abnormal'),
-  ('item-011', 'ins-002', 'Material Storage', 'normal'),
-  ('item-012', 'ins-002', 'Site Housekeeping', 'normal'),
-  ('item-013', 'ins-003', 'Safety Helmet Compliance', 'normal'),
-  ('item-014', 'ins-003', 'Scaffold Safety', 'normal'),
-  ('item-015', 'ins-003', 'Electrical Safety', 'normal'),
-  ('item-016', 'ins-003', 'Fall Protection', 'normal'),
-  ('item-017', 'ins-003', 'Material Storage', 'abnormal'),
-  ('item-018', 'ins-003', 'Site Housekeeping', 'abnormal');
+  ('item-001', 'ins-001', '安全帽配戴', 'normal'),
+  ('item-002', 'ins-001', '施工架安全', 'normal'),
+  ('item-003', 'ins-001', '用電安全', 'normal'),
+  ('item-004', 'ins-001', '防墜設施', 'normal'),
+  ('item-005', 'ins-001', '物料堆放', 'normal'),
+  ('item-006', 'ins-001', '工地整理整頓', 'normal'),
+  ('item-007', 'ins-002', '安全帽配戴', 'normal'),
+  ('item-008', 'ins-002', '施工架安全', 'abnormal'),
+  ('item-009', 'ins-002', '用電安全', 'normal'),
+  ('item-010', 'ins-002', '防墜設施', 'abnormal'),
+  ('item-011', 'ins-002', '物料堆放', 'normal'),
+  ('item-012', 'ins-002', '工地整理整頓', 'normal'),
+  ('item-013', 'ins-003', '安全帽配戴', 'normal'),
+  ('item-014', 'ins-003', '施工架安全', 'normal'),
+  ('item-015', 'ins-003', '用電安全', 'normal'),
+  ('item-016', 'ins-003', '防墜設施', 'normal'),
+  ('item-017', 'ins-003', '物料堆放', 'abnormal'),
+  ('item-018', 'ins-003', '工地整理整頓', 'abnormal');
 
 -- Demo Defects
 INSERT OR IGNORE INTO defects (id, project_id, inspection_id, title, description, work_area, risk_level, status, responsible_user_id, due_date, resolved_notes, resolved_date, closed_date, created_by) VALUES
