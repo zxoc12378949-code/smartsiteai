@@ -1,0 +1,37 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "smartsiteai",
+	"compatibility_date": "2026-06-12",
+	"main": "server/index.ts",
+	"assets": {
+		"not_found_handling": "single-page-application"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true,
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+
+	/**
+	 * D1 Database Binding
+	 * https://developers.cloudflare.com/d1/get-started/
+	 * 
+	 * Steps to create:
+	 * 1. Run: npx wrangler d1 create smartsiteai-db
+	 * 2. Copy the database_id from the output into this config
+	 * 3. Run: npx wrangler d1 execute smartsiteai-db --local --file=server/schema.sql
+	 */
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "smartsiteai-db",
+			"database_id": "956b61fc-35a6-4be9-86df-a1ad67afbe60"
+		}
+	]
+}
